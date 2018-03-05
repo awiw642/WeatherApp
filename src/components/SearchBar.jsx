@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 
-import { updateSearchLocationValue } from '../actionCreators';
+import { updateSearchLocationValue, getWeather, getWeatherForecast } from '../actionCreators';
 
 const SearchWrapper = styled.div`
   display: grid;
@@ -73,7 +73,9 @@ class SearchBar extends React.Component {
   initialiseLocationWeather() {
     navigator.geolocation.getCurrentPosition((position) => {
       const { latitude, longitude } = position.coords;
-      // Need to call API to get weather data here.
+      console.log('Latitude: ', latitude, ' Longitude: ', longitude);
+      this.props.getWeatherOnLocation({ lat: latitude, long: longitude });
+      this.props.getWeatherForecastOnLocation({ lat: latitude, long: longitude });
     });
   }
 
@@ -122,6 +124,12 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   updateSearchLocation(value) {
     dispatch(updateSearchLocationValue(value));
+  },
+  getWeatherOnLocation(geolocation) {
+    dispatch(getWeather(geolocation));
+  },
+  getWeatherForecastOnLocation(geolocation) {
+    dispatch(getWeatherForecast(geolocation));
   },
 });
 
