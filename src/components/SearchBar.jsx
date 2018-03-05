@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 
-import { updateLocationValue } from '../actionCreators';
+import { updateSearchLocationValue } from '../actionCreators';
 
 const SearchWrapper = styled.div`
   display: grid;
@@ -63,24 +63,41 @@ class SearchBar extends React.Component {
     super(props);
     this.locationChange = this.locationChange.bind(this);
     this.locationAutoComplete = this.locationAutoComplete.bind(this);
+    this.initialiseLocationWeather = this.initialiseLocationWeather.bind(this);
+  }
+
+  componentDidMount() {
+    this.initialiseLocationWeather();
+  }
+
+  initialiseLocationWeather() {
+    navigator.geolocation.getCurrentPosition((position) => {
+      const { latitude, longitude } = position.coords;
+      // Need to call API to get weather data here.
+    });
   }
 
   locationChange(event) {
-    const location = event.target.value;
-    this.props.updateLocation(location);
+    const location = { value: event.target.value, long: '', lat: '' };
+    this.props.updateSearchLocation(location);
     this.locationAutoComplete(event);
   }
 
   locationAutoComplete(event) {
-
     const input = event.target;
     if (!input) return;
     const suggestion = new google.maps.places.Autocomplete(input);
 
     suggestion.addListener('place_changed', () => {
       const place = suggestion.getPlace();
-      console.log(place);
-      this.props.updateLocation(place.formatted_address);
+      const long = place.geometry.location.lng();
+      const lat = place.geometry.location.lat();
+      const value = place.formatted_address;
+      this.props.updateSearchLocation({
+        value,
+        long,
+        lat,
+      });
     });
   }
 
@@ -90,7 +107,7 @@ class SearchBar extends React.Component {
         <Title>WEATHER APP</Title>
         <SubTitle>Where are you located?</SubTitle>
         <SearchInputContainer>
-          <SearchInput type="text" value={this.props.location} onChange={this.locationChange} />
+          <SearchInput type="text" value={this.props.searchLocation} onChange={this.locationChange} />
           <SearchButton>Submit</SearchButton>
         </SearchInputContainer>
       </SearchWrapper>
@@ -99,12 +116,12 @@ class SearchBar extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  location: state.location,
+  searchLocation: state.searchLocation.value,
 });
 
 const mapDispatchToProps = dispatch => ({
-  updateLocation(value) {
-    dispatch(updateLocationValue(value));
+  updateSearchLocation(value) {
+    dispatch(updateSearchLocationValue(value));
   },
 });
 

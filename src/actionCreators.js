@@ -1,6 +1,6 @@
-import { UPDATE_LOCATION } from './actions';
+import { UPDATE_LOCATION, UPDATE_SEARCH_LOCATION } from './actions';
 
-export const updateLocationValue = value => ({
-  type: UPDATE_LOCATION,
-  value,
+export const updateSearchLocationValue = location => ({
+  type: UPDATE_SEARCH_LOCATION,
+  location,
 });
