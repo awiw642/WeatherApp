@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 
-import { updateSearchLocationValue, getWeather, getWeatherForecast } from '../actionCreators';
+import { updateSearchLocationValue, updateLocationValue, getWeather, getWeatherForecast } from '../actionCreators';
 
 const SearchWrapper = styled.div`
   display: grid;
@@ -63,20 +63,17 @@ class SearchBar extends React.Component {
     super(props);
     this.locationChange = this.locationChange.bind(this);
     this.locationAutoComplete = this.locationAutoComplete.bind(this);
-    this.initialiseLocationWeather = this.initialiseLocationWeather.bind(this);
+    this.submitLocationWeather = this.submitLocationWeather.bind(this);
   }
 
-  componentDidMount() {
-    this.initialiseLocationWeather();
-  }
-
-  initialiseLocationWeather() {
-    navigator.geolocation.getCurrentPosition((position) => {
-      const { latitude, longitude } = position.coords;
-      console.log('Latitude: ', latitude, ' Longitude: ', longitude);
-      this.props.getWeatherOnLocation({ lat: latitude, long: longitude });
-      this.props.getWeatherForecastOnLocation({ lat: latitude, long: longitude });
-    });
+  submitLocationWeather() {
+    const { long, lat } = this.props.searchLocation;
+    console.log(this.props.searchLocation);
+    const geolocation = { long, lat };
+    console.log(geolocation);
+    this.props.updateLocation(geolocation);
+    this.props.getWeatherOnLocation(geolocation);
+    this.props.getWeatherForecastOnLocation(geolocation);
   }
 
   locationChange(event) {
@@ -109,8 +106,8 @@ class SearchBar extends React.Component {
         <Title>WEATHER APP</Title>
         <SubTitle>Where are you located?</SubTitle>
         <SearchInputContainer>
-          <SearchInput type="text" value={this.props.searchLocation} onChange={this.locationChange} />
-          <SearchButton>Submit</SearchButton>
+          <SearchInput type="text" value={this.props.searchLocation.value} onChange={this.locationChange} />
+          <SearchButton onClick={this.submitLocationWeather}>Submit</SearchButton>
         </SearchInputContainer>
       </SearchWrapper>
     );
@@ -118,12 +115,15 @@ class SearchBar extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  searchLocation: state.searchLocation.value,
+  searchLocation: state.searchLocation,
 });
 
 const mapDispatchToProps = dispatch => ({
   updateSearchLocation(value) {
     dispatch(updateSearchLocationValue(value));
+  },
+  updateLocation(geolocation) {
+    dispatch(updateLocationValue(geolocation));
   },
   getWeatherOnLocation(geolocation) {
     dispatch(getWeather(geolocation));
