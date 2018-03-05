@@ -46,3 +46,13 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+
+.pac-container {
+	font-family: 'Roboto Condensed', sans-serif;
+  color: #884f20;
+	font-size: 1em;
+}
+
+.pac-container:after{
+	content:none !important;
+}
