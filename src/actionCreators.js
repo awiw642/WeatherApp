@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { UPDATE_SEARCH_LOCATION, UPDATE_LOCATION, UPDATE_CURRENT_WEATHER, UPDATE_WEATHER_FORECAST } from './actions';
+import { UPDATE_SEARCH_LOCATION, UPDATE_LOCATION, UPDATE_CURRENT_WEATHER, UPDATE_TEMPERATURE_FORECAST } from './actions';
 
 const API_KEY = '90415b948fc6530a6dfd7223ee64dfe5';
 
@@ -11,7 +11,7 @@ const transformDegToCardinal = (deg) => {
   const directions = 8;
 
   const degree = 360 / directions;
-  const angle = deg + degree / 2;
+  const angle = deg + (degree / 2);
 
   if (angle >= 0 * degree && angle < 1 * degree) {
     return 'N';
@@ -38,6 +38,12 @@ const transformDegToCardinal = (deg) => {
     return 'NW';
   }
   return 'N';
+};
+
+const transformEpochToLocal = (epochTime) => {
+  const date = new Date(0);
+  date.setUTCSeconds(epochTime);
+  return date;
 };
 
 export const updateSearchLocationValue = location => ({
@@ -92,9 +98,20 @@ export const getWeatherForecast = (geolocation) => {
       url: `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${long}&&units=metric&appid=${API_KEY}`,
     })
       .then((data) => {
+        const temperatures = data.data.list.reduce((final, detailedWeather) => {
+          const detail = Object.assign({}, detailedWeather);
+          detail.dt = transformEpochToLocal(detail.dt).getDate();
+          const { main: { temp }, dt } = detail;
+          if (!final[dt]) {
+            return Object.assign({}, final, { [dt]: temp });
+          }
+
+          const newTemp = Math.round((final[dt] + temp) / 2);
+          return Object.assign({}, final, { [dt]: newTemp });
+        }, {});
         dispatch({
-          type: UPDATE_WEATHER_FORECAST,
-          weatherForecast: data.data,
+          type: UPDATE_TEMPERATURE_FORECAST,
+          temperatureForecast: temperatures,
         });
       })
       .catch((error) => {

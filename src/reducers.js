@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { UPDATE_LOCATION, UPDATE_SEARCH_LOCATION, UPDATE_CURRENT_WEATHER, UPDATE_WEATHER_FORECAST } from './actions';
+import { UPDATE_LOCATION, UPDATE_SEARCH_LOCATION, UPDATE_CURRENT_WEATHER, UPDATE_TEMPERATURE_FORECAST } from './actions';
 
 const location = (state = { long: '', lat: '' }, action) => {
   if (action.type === UPDATE_LOCATION) {
@@ -30,9 +30,9 @@ const currentWeather = (
   return state;
 };
 
-const weatherForecast = (state = {}, action) => {
-  if (action.type === UPDATE_WEATHER_FORECAST) {
-    return action.weatherForecast;
+const temperatureForecast = (state = {}, action) => {
+  if (action.type === UPDATE_TEMPERATURE_FORECAST) {
+    return action.temperatureForecast;
   }
   return state;
 };
@@ -41,7 +41,7 @@ const reducer = combineReducers({
   location,
   searchLocation,
   currentWeather,
-  weatherForecast,
+  temperatureForecast,
 });
 
 export default reducer;
