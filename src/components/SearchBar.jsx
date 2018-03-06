@@ -68,9 +68,7 @@ class SearchBar extends React.Component {
 
   submitLocationWeather() {
     const { long, lat } = this.props.searchLocation;
-    console.log(this.props.searchLocation);
     const geolocation = { long, lat };
-    console.log(geolocation);
     this.props.updateLocation(geolocation);
     this.props.getWeatherOnLocation(geolocation);
     this.props.getWeatherForecastOnLocation(geolocation);
