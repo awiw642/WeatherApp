@@ -15,7 +15,15 @@ const searchLocation = (state = { value: '', long: '', lat: '' }, action) => {
   return state;
 };
 
-const currentWeather = (state = { weather: {}, main: {}, name: '' }, action) => {
+const currentWeather = (
+  state = {
+    weather: {},
+    main: {},
+    name: '',
+    wind: '',
+  },
+  action,
+) => {
   if (action.type === UPDATE_CURRENT_WEATHER) {
     return action.currentWeather;
   }
