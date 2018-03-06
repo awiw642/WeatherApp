@@ -74,6 +74,7 @@ class SearchBar extends React.Component {
     this.props.updateLocation(geolocation);
     this.props.getWeatherOnLocation(geolocation);
     this.props.getWeatherForecastOnLocation(geolocation);
+    this.props.updateSearchLocation({ value: '', long: '', lat: '' });
   }
 
   locationChange(event) {
@@ -119,8 +120,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  updateSearchLocation(value) {
-    dispatch(updateSearchLocationValue(value));
+  updateSearchLocation(location) {
+    dispatch(updateSearchLocationValue(location));
   },
   updateLocation(geolocation) {
     dispatch(updateLocationValue(geolocation));
