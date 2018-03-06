@@ -124,15 +124,13 @@ class WeatherResult extends React.Component {
           <DetailContainer>
             <IconHolder>
               <Icon src="https://image.ibb.co/f5caDS/if_weather_9_2682842.png" alt="if_weather_43_2682808" border="0"/>
-              <p>KM/Hour</p>
+              <p>Km/Hour</p>
             </IconHolder>
             <ValueHolder>
               <Value>{wind.speed} {wind.deg}</Value>
-              <p>KM</p>
+              <p>Km</p>
             </ValueHolder>
           </DetailContainer>
-          
-
         </WeatherDetails>
       </WeatherResultWrapper>
     );
