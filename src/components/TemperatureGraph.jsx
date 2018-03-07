@@ -7,18 +7,20 @@ const CanvasContainer = styled.div`
   grid-column: 2/4;
   margin-top: 1em;
   justify-items: center;
-  width: 50%;
-  height: 20%;
+  width: 90%;
+  height: 10%;
 `;
-const TemperatureCanvas = styled.canvas`
-  responsive: true;
-  `;
 
 class TemperatureGraph extends React.Component {
   constructor(props) {
     super(props);
     this.renderGraph = this.renderGraph.bind(this);
   }
+
+  componentDidMount() {
+    this.renderGraph();
+  }
+
   componentDidUpdate() {
     this.renderGraph();
   }
@@ -60,7 +62,7 @@ class TemperatureGraph extends React.Component {
   render() {
     return (
       <CanvasContainer>
-        <TemperatureCanvas id="myChart" width="100" height="70" responsive="true" />
+        <canvas id="myChart" width="90" height="70" responsive="true" />
       </CanvasContainer>
     );
   }
