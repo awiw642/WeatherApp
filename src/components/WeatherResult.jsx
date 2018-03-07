@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 
+import TemperatureGraph from './TemperatureGraph.jsx';
+
 import { updateLocationValue, getWeather, getWeatherForecast } from '../actionCreators';
 
 const WeatherResultWrapper = styled.div`
@@ -90,6 +92,7 @@ class WeatherResult extends React.Component {
           <img src={weather.icon} alt="weatherIcon" />
           <WeatherSubtitle>{weather.description}</WeatherSubtitle>
         </WeatherTitleContainer>
+        <TemperatureGraph />
         <WeatherDetails>
           <DetailContainer>
             <IconHolder>
@@ -97,7 +100,7 @@ class WeatherResult extends React.Component {
               <p>Temp</p>
             </IconHolder>
             <ValueHolder>
-              <Value>{main.temp}</Value>
+              <Value>{main.temp}°</Value>
               <p>Celcius</p>
             </ValueHolder>
           </DetailContainer>

@@ -15,14 +15,14 @@ const Title = styled.h1`
   grid-column: 1/5;
   font-family: 'Source Code Pro', monospace;
   color: #884f20;
-  font-size: 4em;
+  font-size: 4vw;
 `;
 
 const SubTitle = styled.p`
   grid-column: 1/5;
   font-family: 'Roboto Condensed', sans-serif;
   color: #884f20;
-  font-size: 1em;
+  font-size: 1vw;
 `;
 
 const SearchInputContainer = styled.div`
@@ -35,7 +35,7 @@ const SearchInput = styled.input`
   height: 1.7em;
   width: 20em;
   font-family: 'Roboto Condensed', sans-serif;
-  font-size: 1em;
+  font-size: 1vw;
 
   &:focus {
     outline: none;
@@ -64,6 +64,13 @@ class SearchBar extends React.Component {
     this.locationChange = this.locationChange.bind(this);
     this.locationAutoComplete = this.locationAutoComplete.bind(this);
     this.submitLocationWeather = this.submitLocationWeather.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
+  }
+
+  handleKeyPress(e) {
+    if (e.key === 'Enter') {
+      this.submitLocationWeather();
+    }
   }
 
   submitLocationWeather() {
@@ -105,7 +112,7 @@ class SearchBar extends React.Component {
         <Title>WEATHER APP</Title>
         <SubTitle>Where are you located?</SubTitle>
         <SearchInputContainer>
-          <SearchInput type="text" value={this.props.searchLocation.value} onChange={this.locationChange} />
+          <SearchInput type="text" value={this.props.searchLocation.value} onChange={this.locationChange} onKeyPress={this.handleKeyPress} />
           <SearchButton onClick={this.submitLocationWeather}>Submit</SearchButton>
         </SearchInputContainer>
       </SearchWrapper>

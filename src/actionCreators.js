@@ -46,6 +46,11 @@ const transformEpochToLocal = (epochTime) => {
   return date;
 };
 
+const transformMonth = (month) => {
+  const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  return monthNames[month];
+};
+
 export const updateSearchLocationValue = location => ({
   type: UPDATE_SEARCH_LOCATION,
   location,
@@ -100,7 +105,8 @@ export const getWeatherForecast = (geolocation) => {
       .then((data) => {
         const temperatures = data.data.list.reduce((final, detailedWeather) => {
           const detail = Object.assign({}, detailedWeather);
-          detail.dt = transformEpochToLocal(detail.dt).getDate();
+          const date = transformEpochToLocal(detail.dt);
+          detail.dt = `${date.getDate()} ${transformMonth(date.getMonth())}`;
           const { main: { temp }, dt } = detail;
           if (!final[dt]) {
             return Object.assign({}, final, { [dt]: temp });
