@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import { updateSearchLocationValue, updateLocationValue, getWeather, getWeatherForecast } from '../actionCreators';
 
@@ -15,14 +16,14 @@ const Title = styled.h1`
   grid-column: 1/5;
   font-family: 'Source Code Pro', monospace;
   color: #884f20;
-  font-size: 4vw;
+  font-size: 4em;
 `;
 
 const SubTitle = styled.p`
   grid-column: 1/5;
   font-family: 'Roboto Condensed', sans-serif;
   color: #884f20;
-  font-size: 1vw;
+  font-size: 1em;
 `;
 
 const SearchInputContainer = styled.div`
@@ -35,7 +36,7 @@ const SearchInput = styled.input`
   height: 1.7em;
   width: 20em;
   font-family: 'Roboto Condensed', sans-serif;
-  font-size: 1vw;
+  font-size: 1em;
 
   &:focus {
     outline: none;
@@ -65,12 +66,27 @@ class SearchBar extends React.Component {
     this.locationAutoComplete = this.locationAutoComplete.bind(this);
     this.submitLocationWeather = this.submitLocationWeather.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
+    this.initialiseLocationWeather = this.initialiseLocationWeather.bind(this);
+  }
+
+  componentDidMount() {
+    this.initialiseLocationWeather();
   }
 
   handleKeyPress(e) {
     if (e.key === 'Enter') {
       this.submitLocationWeather();
     }
+  }
+
+  initialiseLocationWeather() {
+    navigator.geolocation.getCurrentPosition((position) => {
+      const { latitude, longitude } = position.coords;
+      const geolocation = { lat: latitude, long: longitude };
+      this.props.updateLocation(geolocation);
+      this.props.getWeatherOnLocation(geolocation);
+      this.props.getWeatherForecastOnLocation(geolocation);
+    });
   }
 
   submitLocationWeather() {
@@ -113,7 +129,7 @@ class SearchBar extends React.Component {
         <SubTitle>Where are you located?</SubTitle>
         <SearchInputContainer>
           <SearchInput type="text" value={this.props.searchLocation.value} onChange={this.locationChange} onKeyPress={this.handleKeyPress} />
-          <SearchButton onClick={this.submitLocationWeather}>Submit</SearchButton>
+          <Link className="submit-link" to={{ pathname: '/result' }} onClick={this.submitLocationWeather}>Submit</Link>
         </SearchInputContainer>
       </SearchWrapper>
     );

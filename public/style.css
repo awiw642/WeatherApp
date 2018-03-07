@@ -56,3 +56,28 @@ table {
 .pac-container:after{
 	content:none !important;
 }
+
+a.submit-link {
+	color: #e6e6e6;
+	background: #52b9e6;
+	border: none;
+	font-size: 16px;
+	border-radius: 3px;
+	width: 200px;
+	text-align: center;
+	display: block;
+	padding: 7px 0;
+	margin: 10px auto;
+	text-decoration: none;
+	color: #ffffff;
+}
+
+a.nav {
+	text-decoration: none;
+	color: #52b9e6;
+}
+
+a.nav.active {
+	color: #884f20;
+	font-weight: bold;
+}

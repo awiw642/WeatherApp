@@ -36,21 +36,50 @@ const WeatherTitle = styled.h1`
 const WeatherDetails = styled.div`
   grid-column: 1/5;
   margin-top: 0.5em;
+
+  @media (max-width: 805px) {
+    margin-top: 1.5em;
+  }
+
 `;
 
 const DetailContainer = styled.div`
   display: inline-flex;
   margin: 5em;
+
+  @media (max-width: 1370px) {
+    margin: 3em;
+  }
+
+  @media (max-width: 930px) {
+    margin: 2em;
+  }
+
+  @media (max-width: 805px) {
+    margin: 0.8em;
+  }
 `;
 
 const Icon = styled.img`
   height: 4em;
+
+  @media (max-width: 1370px) {
+    height: 2em;
+  }
 `;
 
 const IconHolder = styled.span`
   text-align: center;
   font-family: 'Roboto Condensed', sans-serif;
   color: #52b9e6;
+
+  @media (max-width: 1370px) {
+    margin-right: 1em;
+  }
+
+  @media (max-width: 645px) {
+    margin-right: 0.3em;
+  }
 `;
 
 const ValueHolder = styled.span`
@@ -62,27 +91,13 @@ const ValueHolder = styled.span`
 const Value = styled.p`
   font-size: 4.3em;
   color: #884f20;
+
+  @media (max-width: 1370px) {
+    font-size: 2.3em;
+  }
 `;
 
 class WeatherResult extends React.Component {
-  constructor(props) {
-    super(props);
-    this.initialiseLocationWeather = this.initialiseLocationWeather.bind(this);
-  }
-  componentDidMount() {
-    this.initialiseLocationWeather();
-  }
-
-  initialiseLocationWeather() {
-    navigator.geolocation.getCurrentPosition((position) => {
-      const { latitude, longitude } = position.coords;
-      const geolocation = { lat: latitude, long: longitude };
-      this.props.updateLocation(geolocation)
-      this.props.getWeatherOnLocation(geolocation);
-      this.props.getWeatherForecastOnLocation(geolocation);
-    });
-  }
-
   render() {
     const { weather, main, name, wind } = this.props.currentWeather;
     return (
