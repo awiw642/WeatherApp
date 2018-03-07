@@ -40,7 +40,6 @@ const WeatherDetails = styled.div`
   @media (max-width: 805px) {
     margin-top: 1.5em;
   }
-
 `;
 
 const DetailContainer = styled.div`

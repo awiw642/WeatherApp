@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import { UPDATE_SEARCH_LOCATION, UPDATE_LOCATION, UPDATE_CURRENT_WEATHER, UPDATE_TEMPERATURE_FORECAST } from './actions';
 
-const API_KEY = '90415b948fc6530a6dfd7223ee64dfe5';
+const API_KEY = '90415b948fc6530a6dfd7223ee64dfe5'; // Placed here to work out of the box. Should be placed on a private file.
 
 // Helper function
 const transformIconToUrl = icon => `http://openweathermap.org/img/w/${icon}.png`;
@@ -108,6 +108,7 @@ export const getWeatherForecast = (geolocation) => {
           const date = transformEpochToLocal(detail.dt);
           detail.dt = `${date.getDate()} ${transformMonth(date.getMonth())}`;
           const { main: { temp }, dt } = detail;
+          
           if (!final[dt]) {
             return Object.assign({}, final, { [dt]: temp });
           }

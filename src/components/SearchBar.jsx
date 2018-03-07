@@ -43,22 +43,6 @@ const SearchInput = styled.input`
   }
 `;
 
-const SearchButton = styled.button`
-  border: 1px solid #52b9e6;
-  background: #52b9e6;
-  color: #ffffff;
-  font-family: 'Roboto Condensed', sans-serif;
-  font-size: 1em;
-  height: 2em;
-  width: 8em;
-  margin-left: 1em;
-  vertical-align: middle;
-
-  &:focus {
-    outline: none;
-  }
-`;
-
 class SearchBar extends React.Component {
   constructor(props) {
     super(props);

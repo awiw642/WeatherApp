@@ -16,9 +16,7 @@ export default class App extends React.Component {
             <Route path="/result" component={WeatherResult} />
             <Route path="/search" component={SearchBar} />
             <Route
-              render={() => {
-                return <p>Not Found</p>;
-              }}
+              render={() => <p>Not Found</p>}
             />
           </Switch>
         </div>
